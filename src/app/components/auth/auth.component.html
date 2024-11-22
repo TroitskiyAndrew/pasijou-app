@@ -1,0 +1,4 @@
+<div class="header">
+  <span class="header__name"> {{stateService.guestName || 'Anonym'}}</span>
+  <button *ngIf="!stateService.guestName" class="header__login" (click)="login()">Login</button>
+</div>

@@ -1,0 +1,14 @@
+@import "../../../styles.scss";
+
+:host {
+  display: block;
+  background-color: $background-color;
+  height: 50px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  column-gap: 10px;
+}

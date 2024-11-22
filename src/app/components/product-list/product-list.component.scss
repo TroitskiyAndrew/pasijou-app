@@ -1,0 +1,27 @@
+@import "../../../styles.scss";
+
+:host {
+  display: block;
+  background-color: $background-color;
+}
+
+.menu {
+  display: block;
+  &__tabs {
+    position: sticky;
+    top: 0;
+    background-color: $background-color;
+    z-index: 999;
+  }
+  &__category{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+  }
+}
+
+p {
+  font-weight: 900;
+}
+
+

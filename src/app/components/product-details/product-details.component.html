@@ -1,0 +1,12 @@
+<div *ngIf="product" class="product">
+  <button class="return-button" (click)="onClose()">X</button>
+  <div class="product__image-container">
+    <img class="product__image" [src]="product.photoUrl" alt="photo">
+  </div>
+  <div class="product__info-container">
+    <h3 class="product__name">{{product.product_name}}</h3>
+    <span class="product__name">{{product.ingredients}}</span>
+    <div class="product__price">{{product.price}}</div>
+    <app-product-buttons [productId]="product.product_id"></app-product-buttons>
+  </div>
+</div>

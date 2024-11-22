@@ -1,0 +1,12 @@
+<div *ngIf="product" class="product" (click)="openProduct()">
+  <div class="product__image-container">
+    <img class="product__image" [src]="product.photoUrl" alt="photo">
+  </div>
+  <div class="product__info-container">
+    <span class="product__name">{{product.product_name}}</span>
+    <div class="product__counts">
+      <span class="product__price">{{product.price}}</span>
+      <app-product-buttons [productId]="product.product_id"></app-product-buttons>
+    </div>
+  </div>
+</div>

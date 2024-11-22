@@ -1,0 +1,17 @@
+<div class="cart padding-holder">
+  <button class="return-button" (click)="onClose()">X</button>
+  <div class="cart__order">
+    <div *ngFor="let orderPosition of stateService.order.positions" class="cart__position">
+      <div>{{orderPosition.name}}</div>
+      <app-product-buttons [productId]="orderPosition.product_id" [withTotal]="true"></app-product-buttons>
+    </div>
+    <h1>{{stateService.order.total}}</h1>
+  </div>
+  <div *ngIf="stateService.order.positions.length" class="cart__complete">
+    <button
+      (click)="createOrder()"
+    >
+      Create Order
+    </button>
+  </div>
+</div>

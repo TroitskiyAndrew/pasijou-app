@@ -1,0 +1,26 @@
+:host{
+  display: block;
+  height: 100%;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+
+  &__image-container{
+    height: 50%;
+  }
+
+  &__image {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.return-button{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
