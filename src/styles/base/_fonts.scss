@@ -1,3 +1,8 @@
 // -----------------------------------------------------------------------------
 // This file contains all @font-face declarations, if any.
 // -----------------------------------------------------------------------------
+
+@font-face {
+  font-family: 'LogoFont';
+  src: url('../../assets/fonts/LinotypeRowenaLight.ttf') format('truetype');
+}

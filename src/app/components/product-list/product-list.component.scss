@@ -2,26 +2,34 @@
 
 :host {
   display: block;
-  background-color: $background-color;
+  background-color: white;
+  margin-top: -$space;
+  padding-bottom: 1600px;
 }
 
 .menu {
   display: block;
-  &__tabs {
-    position: sticky;
-    top: 0;
-    background-color: $background-color;
-    z-index: 999;
+  &__list{
+    height: 100%;
+    overflow-y: auto;
   }
-  &__category{
+  &__category {
     display: flex;
     flex-direction: column;
-    row-gap: 5px;
+    row-gap: 10px;
+    &__title {
+      font-size: 18px;
+      font-weight: 500;
+      margin-top: 10px;
+      padding-bottom: 5px;
+      border-bottom: solid 3px;
+      color: $color-contrast;
+    }
   }
 }
 
 p {
-  font-weight: 900;
+  font-weight: 500;
 }
 
 

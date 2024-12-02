@@ -12,13 +12,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { CartComponent } from './components/cart/cart.component';
-import { FooterComponent } from "./components/footer/footer.component";
 import { ProductButtonsComponent } from './components/product-buttons/product-buttons.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { LoadingOverlayComponent } from './components/loading-overlay/loading-overlay.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthComponent } from './components/auth/auth.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { PricePipe } from './pipes/price.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,12 +30,14 @@ import { AuthComponent } from './components/auth/auth.component';
     ProductListComponent,
     ProductDetailsComponent,
     HeaderComponent,
-    FooterComponent,
     CartComponent,
     DialogComponent,
     LoadingOverlayComponent,
     AuthComponent,
+    NavigationComponent,
+    PricePipe,
   ],
+  providers: [],
   imports: [
     BrowserModule,
     RouterModule,
@@ -45,8 +48,7 @@ import { AuthComponent } from './components/auth/auth.component';
     BrowserAnimationsModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-],
-  providers: [],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,9 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StateService } from '../../services/state.service';
 import { Location } from '@angular/common';
-import { setPaddingTop } from '../../utils/utils';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
 import { FormControl, Validators } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
 import { Router } from '@angular/router';
@@ -13,14 +10,13 @@ import { Router } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent  implements OnInit, OnDestroy{
 
   constructor(public stateService: StateService, private location: Location, public dialogService: DialogService, private router: Router) { }
 
   ngOnInit(): void {
-    setPaddingTop('.cart');
-    const footerContent = document.querySelector('.footer') as HTMLElement;
-    footerContent.classList.add('hidden');
+    this.stateService.isHomePage = false;
+    document.querySelector('.nav__cart__button')?.classList.add('active');
   }
 
   async createOrder() {
@@ -31,7 +27,6 @@ export class CartComponent implements OnInit, OnDestroy {
     const fields = [tableField,nameField, commentField];
 
     const order = await this.dialogService.init({
-      message: "That's it?",
       fields,
       buttons: [{
         label: 'Yes',
@@ -44,24 +39,20 @@ export class CartComponent implements OnInit, OnDestroy {
       {
         label: 'Later',
         disabled: () => false,
-        action: () => null
+        action: () => null,
+        class: 'cancel'
       }
       ]
     });
-    this.router.navigate(['/table', this.stateService.table]);
+    this.router.navigate(['/cart']);
     if(order == null){
       return;
     }
     await this.dialogService.popUp({message: "We've already stared cooking your order"}, 'Nice')
   }
 
-  onClose() {
-    this.location.back();
-  }
-
   ngOnDestroy(): void {
-    const footerContent = document.querySelector('.footer') as HTMLElement;
-    footerContent.classList.remove('hidden')
+    document.querySelector('.nav__cart__button')?.classList.remove('active');
   }
 
 }

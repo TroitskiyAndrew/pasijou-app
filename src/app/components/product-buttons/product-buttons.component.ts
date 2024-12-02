@@ -9,16 +9,24 @@ import { StateService } from '../../services/state.service';
 })
 export class ProductButtonsComponent implements AfterViewInit{
   @Input() productId!: string;
-  @Input() withTotal = false;
+  @Input() modificationId?: string;
+  @Input() mainCount = false;
+  @Input() addons = false;
   @HostListener('click', ['$event']) blockClicks(event: MouseEvent) {
     event.stopPropagation();
   }
   orderPosition!: IOrderPosition;
+  modification?: IModification & {count: number; total: number};
 
   constructor(private stateService: StateService){}
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.orderPosition = this.stateService.getOrderPosition(this.productId));
+    setTimeout(() => {
+      this.orderPosition = this.stateService.getOrderPosition(this.productId);
+      if (this.modificationId) {
+        this.modification = this.orderPosition.modifications.find(modification => modification.dish_modification_id === this.modificationId)
+      }
+    });
   }
 
   changeAmount(change: number){

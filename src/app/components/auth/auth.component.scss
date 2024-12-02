@@ -2,13 +2,15 @@
 
 :host {
   display: block;
-  background-color: $background-color;
-  height: 50px;
+  height: 100%;
 }
 
-.header {
+.guest {
   display: flex;
   align-items: center;
-  justify-content: end;
   column-gap: 10px;
+  height: 100%;
+  &__name {
+    font-size: 18px;
+  }
 }

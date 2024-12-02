@@ -8,10 +8,16 @@ export interface ICategory {
   products: IProduct[];
 }
 
+export interface IPrice {
+  price: number;
+  discountPrice?: number;
+}
+
 export interface IModification {
   dish_modification_id: string;
   name: string;
   price: number;
+  discountPrice?: number;
   photoUrl: string | null;
 }
 
@@ -19,10 +25,13 @@ export interface IProduct {
   product_id: string;
   menu_category_id: string;
   product_name: string;
-  price: number,
+  price: number;
+  discountPrice?: number;
+  product_production_description: '';
   ingredients: string[];
   photoUrl: string | null;
   modifications: IModification[];
+  cooking_time: number;
 }
 
 export type Menu = (ICategory & {products: IProduct[]})[]
@@ -31,6 +40,7 @@ export interface IOrderPosition {
   product_id: string;
   name: string;
   price: number;
+  discountPrice?: number;
   count: number;
   total: number;
   modifications: (IModification & {count: number; total: number})[]
@@ -66,6 +76,7 @@ export interface IDialogButton {
   label: string;
   action: () => Promise<any> | any;
   disabled: () => boolean;
+  class?: string
 }
 
 export interface DialogData {
@@ -82,4 +93,9 @@ export interface IGuest {
   id: string;
   name: string;
   discount: number;
+}
+
+export interface ITable {
+  id: string;
+  name: string;
 }

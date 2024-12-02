@@ -1,3 +1,42 @@
+@import "../../../styles.scss";
+
 :host {
   display: block;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  &__button {
+    padding: 3px 5px;
+    background-color: $color-contrast;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &.disabled {
+      background-color: grey;
+    }
+  }
+
+  &__addons{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    margin-top: 3px;
+  }
+
+  &__modification__title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
 }

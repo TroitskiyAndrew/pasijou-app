@@ -24,6 +24,10 @@ $text-color: rgb(34, 34, 34) !default;
 
 /// Main brand color
 /// @type Color
+$color-contrast: black !default;
+
+/// Main brand color
+/// @type Color
 $brand-color: rgb(229, 0, 80) !default;
 
 /// Light grey
@@ -39,7 +43,7 @@ $mid-grey: rgb(153, 153, 153) !default;
 $dark-grey: rgb(68, 68, 68) !default;
 
 /// Main brand color
-$background-color: white;
+$background-color: grey;
 
 
 
@@ -77,3 +81,6 @@ $base-url: '/assets/' !default;
 
 /// @type Color
 $linze-border: rgb(7, 57, 131);
+
+
+$space: 20px;

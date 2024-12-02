@@ -25,8 +25,5 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const main = document.querySelector('main') as HTMLElement;
-    const footerHeight = getElementHeight('app-footer');
-    main.style.paddingBottom = `${footerHeight}px`;
   }
 }

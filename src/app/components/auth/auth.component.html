@@ -1,4 +1,6 @@
-<div class="header">
-  <span class="header__name"> {{stateService.guestName || 'Anonym'}}</span>
-  <button *ngIf="!stateService.guestName" class="header__login" (click)="login()">Login</button>
+<div class="guest">
+  <span class="guest__name"> {{stateService.guestName || 'Guest'}}</span>
+  <button *ngIf="!stateService.guestName" class="nav__button nav__cart__button icon-button" (click)="login()">
+    <i [ngClass]="['nav__button__icon', iconPrefix, 'fa-right-to-bracket']" class="nav__button__icon"></i>
+  </button>
 </div>

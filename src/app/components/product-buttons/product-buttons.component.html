@@ -1,17 +1,12 @@
 <div *ngIf="orderPosition">
-  <div>
-    <button (click)="changeAmount(-1)"> - </button>
+  <div class="count" *ngIf="!modificationId">
+    <button class="count__button" [ngClass]="orderPosition.count ? '' : 'disabled'" (click)="changeAmount(-1)"> <i class="fa-solid fa-minus"></i> </button>
     <span> {{orderPosition.count}} </span>
-    <button (click)="changeAmount(1)"> + </button>
-    <span *ngIf="withTotal"> {{orderPosition.count * orderPosition.price}}</span>
+    <button class="count__button" (click)="changeAmount(1)"> <i class="fa-solid fa-plus"></i> </button>
   </div>
-  <div *ngIf="orderPosition.modifications.length" class="order__modifications">
-    <div *ngFor="let modification of orderPosition.modifications" class="order__modification">
-      <span>{{ modification.name }}</span>
-      <button (click)="changeModification(modification.dish_modification_id, -1)"> - </button>
-      <span>{{ modification.count }}</span>
-      <button (click)="changeModification(modification.dish_modification_id, 1)"> + </button>
-      <span *ngIf="withTotal">{{ modification.count * modification.price}}</span>
-    </div>
+  <div class="count" *ngIf="modification">
+    <button class="count__button" [ngClass]="modification.count ? '' : 'disabled'" (click)="changeModification(modification.dish_modification_id, -1)"> <i class="fa-solid fa-minus"></i> </button>
+    <span> {{modification.count}} </span>
+    <button class="count__button" [ngClass]="orderPosition.count ? '' : 'disabled'" (click)="changeModification(modification.dish_modification_id, 1)"> <i class="fa-solid fa-plus"></i> </button>
   </div>
 </div>

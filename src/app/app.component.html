@@ -1,7 +1,13 @@
+<section class="navigation">
+  <app-navigation ></app-navigation>
+</section>
+<section class="content">
+  <app-header></app-header>
+  <main>
+    <app-loading-overlay></app-loading-overlay>
+    <router-outlet></router-outlet>
+  </main>
+</section>
 
-<app-header></app-header>
-<main class="padding-holder">
-  <app-loading-overlay></app-loading-overlay>
-  <router-outlet></router-outlet>
-</main>
-<app-footer></app-footer>
+
+

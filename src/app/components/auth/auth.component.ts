@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import Inputmask from "inputmask";
 import { environment } from '../../../environments/environment';
 import { StateService } from '../../services/state.service';
 import { ApiService } from '../../services/api.service';
@@ -15,6 +14,8 @@ import { DialogService } from '../../services/dialog.service';
   styleUrl: './auth.component.scss'
 })
 export class AuthComponent {
+
+  iconPrefix = environment.iconPrefix;
 
   constructor(private dialogService: DialogService, private apiService: ApiService, public stateService: StateService, private loadingService: LoadingService) { }
 
@@ -44,15 +45,12 @@ export class AuthComponent {
       return;
     }
     let client_id = '';
-    try {
-      this.loadingService.show()
-      client_id = await this.apiService.createGuest(phone, name).then(({client_id}) => client_id);
-
-    } catch (error) {
-      this.dialogService.popUp({errorMessage: 'Something went wrong, try later please'});
-     return;
-    }
+    this.loadingService.show()
+    client_id = await this.apiService.createGuest(phone, name).then(({client_id}) => client_id);
     this.loadingService.hide();
+    if(client_id === null){
+      return;
+    }
     this.stateService.setGuest({ id: client_id, name, discount : 0 });
     this.dialogService.popUp({message: 'Nice to meet you'}, "Let's go");
   }
@@ -64,7 +62,7 @@ export class AuthComponent {
     if(!isCodeSended){
       return false;
     }
-    const codeField = { id: 'code', label: 'Code', control: new FormControl('', Validators.required) }
+    const codeField = { id: 'code', label: '', control: new FormControl('', Validators.required) }
     return this.dialogService.init({
       message: 'Type code from message',
       fields: [codeField],
@@ -83,25 +81,30 @@ export class AuthComponent {
         label: 'Cancel',
         disabled: () => false,
         action: () => false,
+        class: 'cancel'
       }
       ]
     });
   }
 
   private getPhone(): Promise<string | null> {
-    const mask = environment.phoneMask;
-    const phoneField = { id: 'phone', label: 'WhatsApp number', control: new FormControl('', this.phoneValidator(mask)) };
+    const phoneField = { id: 'phone', label: '', control: new FormControl('+', [Validators.required,Validators.minLength(10), Validators.pattern(/^\+\d*$/)]) };
     return this.dialogService.init({
       init: () => {
-        const phoneInput = document.getElementById("phone") as HTMLElement;
-        Inputmask({
-          mask,
-          showMaskOnHover: true,
-          placeholder: "_",
-          clearIncomplete: true
-        }).mask(phoneInput);
+        phoneField.control.valueChanges.subscribe((value) => {
+          if (value && !value.startsWith('+')) {
+            phoneField.control.setValue('+' + value.replace(/[^0-9]/g, ''), {
+              emitEvent: false,
+            });
+          } else if (!value) {
+            phoneField.control.setValue(
+              '+',
+              { emitEvent: false }
+            );
+          }
+        });
       },
-      message: 'Type your WhatsApp number please',
+      message: 'Type your WhatsApp number, please',
       fields: [phoneField],
       buttons: [{
         label: 'Send code',
@@ -111,7 +114,8 @@ export class AuthComponent {
       {
         label: 'Cancel',
         disabled: () => false,
-        action: () => null
+        action: () => null,
+        class: 'cancel'
       }
       ]
     });
@@ -130,19 +134,11 @@ export class AuthComponent {
       {
         label: 'Maybe later',
         disabled: () => false,
-        action: () => null
+        action: () => null,
+        class: 'cancel'
       }
       ]
     });
-  }
-
-  phoneValidator(mask: string): ValidatorFn {
-
-    return (control: AbstractControl): ValidationErrors | null => {
-      const phoneNumber = control.value;
-      return Inputmask.isValid(phoneNumber, { mask: mask }) ? null : { invalidPhoneNumber: true };
-    };
-
   }
 
 

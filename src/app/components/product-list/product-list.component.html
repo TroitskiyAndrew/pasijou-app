@@ -1,12 +1,6 @@
-<div class="menu__tabs">
-  <mat-tab-group [animationDuration]="'0ms'"
-  [dynamicHeight]="false" (selectedIndexChange)="scrollTo(stateService.menu[$event].category_id)">
-    <mat-tab *ngFor="let category of stateService.menu" [label]="category.category_name"></mat-tab>
-  </mat-tab-group>
-</div>
-<div class="menu__list padding-holder">
+<div class="menu__list">
   <div *ngFor="let category of stateService.menu" [id]="category.category_id" class="menu__category">
-    <p>{{category.category_name}}</p>
+    <div class="menu__category__title">{{category.category_name}}</div>
     <app-product-card
     class="menu__product"
     *ngFor="let product of category.products"

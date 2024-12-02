@@ -11,7 +11,7 @@
   <div *ngIf="dialogData.buttons" class="dialog__buttons">
     <button
       *ngFor="let button of dialogData.buttons"
-      class="dialog__buttons__btn"
+      [ngClass]="['dialog__buttons__btn', 'button', button.disabled() ? 'disabled' : '', button.class || '']"
       (click)="runAction(button)"
       [disabled]="button.disabled()">
       {{button.label}}

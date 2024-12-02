@@ -1,12 +1,25 @@
 <div *ngIf="product" class="product">
-  <button class="return-button" (click)="onClose()">X</button>
+  <div class="product__timing">
+    <i class="fa-regular fa-clock"></i>
+    <span> {{product.cooking_time}}m</span>
+  </div>
   <div class="product__image-container">
     <img class="product__image" [src]="product.photoUrl" alt="photo">
   </div>
   <div class="product__info-container">
-    <h3 class="product__name">{{product.product_name}}</h3>
-    <span class="product__name">{{product.ingredients}}</span>
-    <div class="product__price">{{product.price}}</div>
-    <app-product-buttons [productId]="product.product_id"></app-product-buttons>
+    <div class="product__name">{{product.product_name}}</div>
+    <span class="product__ingredients">{{product.product_production_description}}</span>
+    <span class="product__description">{{product.ingredients}}</span>
+    <div class="product__main-count">
+      <div class="price-holder"> {{product.discountPrice || product.price | price}} </div>
+      <app-product-buttons [productId]="product.product_id" [mainCount]="true"></app-product-buttons>
+    </div>
+    <div class="product__addons">
+      <div *ngFor="let modification of product.modifications" class="product__addons__item">
+        <div class="addon__name">{{modification.name}}</div>
+        <div class="price-holder"> {{modification.discountPrice || modification.price | price}} </div>
+        <app-product-buttons [productId]="product.product_id" [modificationId]="modification.dish_modification_id"></app-product-buttons>
+      </div>
+    </div>
   </div>
 </div>

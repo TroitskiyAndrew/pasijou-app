@@ -3,7 +3,6 @@ import { IOrderPosition, IProduct } from '../../models/models';
 import { StateService } from '../../services/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { getElementHeight, setPaddingTop } from '../../utils/utils';
 import { Location } from '@angular/common';
 
 @Component({
@@ -26,11 +25,8 @@ export class ProductDetailsComponent {
       this.product = this.stateService.getProduct(productId);
       this.orderPosition = this.stateService.getOrderPosition(productId);
     }});
-    setPaddingTop('main');
-  }
-
-  onClose(){
-    this.location.back();
+    this.stateService.isHomePage = false;
+    this.stateService.categories.forEach(category => category.active = false);
   }
 
   ngOnDestroy(): void {

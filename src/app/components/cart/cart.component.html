@@ -1,17 +1,26 @@
-<div class="cart padding-holder">
-  <button class="return-button" (click)="onClose()">X</button>
+<div class="cart">
   <div class="cart__order">
     <div *ngFor="let orderPosition of stateService.order.positions" class="cart__position">
-      <div>{{orderPosition.name}}</div>
-      <app-product-buttons [productId]="orderPosition.product_id" [withTotal]="true"></app-product-buttons>
+      <div class="cart__position__sub">
+        <div class="cart__position__title">{{orderPosition.name}}</div>
+        <div class="cart__position__price"> {{orderPosition.discountPrice || orderPosition.price | price}} </div>
+        <app-product-buttons [productId]="orderPosition.product_id"></app-product-buttons>
+        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice || orderPosition.price) | price}}</div>
+      </div>
+      <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
+        <div class="cart__modification__title">{{addon.name}}</div>
+        <div class="cart__position__price"> {{addon.discountPrice || addon.price | price}} </div>
+        <app-product-buttons [productId]="orderPosition.product_id" [modificationId]="addon.dish_modification_id"></app-product-buttons>
+        <div class="cart__position__price-total">{{addon.count * (addon.discountPrice || addon.price) | price}}</div>
+      </div>
     </div>
-    <h1>{{stateService.order.total}}</h1>
+    <div class="cart__total">{{stateService.order.total | price}}</div>
   </div>
   <div *ngIf="stateService.order.positions.length" class="cart__complete">
-    <button
+    <button class="button"
       (click)="createOrder()"
     >
-      Create Order
+      Complete order
     </button>
   </div>
 </div>

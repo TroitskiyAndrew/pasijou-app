@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StateService } from '../../services/state.service';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProductCardComponent } from "../product-card/product-card.component";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { getElementHeight, setPaddingTop } from '../../utils/utils';
+import { getElementHeight } from '../../utils/utils';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,7 +12,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit, OnDestroy{
+
+  handler!: () => void;
 
   constructor(public stateService: StateService, private route: ActivatedRoute) {
 
@@ -22,15 +24,28 @@ export class ProductListComponent implements OnInit{
     if(!this.stateService.table){
       this.stateService.table = this.route.snapshot.params['table'] || null;
     }
-    setPaddingTop('.menu__tabs');
+    this.stateService.isHomePage = true;
+    this.handler = this.handleScroll.bind(this);
+    window.addEventListener('scroll', this.handler);
   }
 
+  handleScroll(){
+    const categories = document.querySelectorAll('.menu__category');
+    let id = '';
+    const line = getElementHeight('app-header')
+    categories.forEach(category => {
+      if(category.getBoundingClientRect().top <= line){
+        id = category.id
+      }
+    })
+    if(id){
+      this.stateService.categories.forEach(category => category.active = category.id === id)
+    }
 
-  scrollTo(id: any) {
-    const element = document.getElementById(id)!;
-    const tabsHeight = getElementHeight('.menu__tabs');
-    const y = element.getBoundingClientRect().top + window.scrollY - tabsHeight;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.handler);
   }
 
 }

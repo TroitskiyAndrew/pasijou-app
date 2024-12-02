@@ -2,12 +2,19 @@
 
 :host {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
+  height: max-content;
+}
+
+.content {
+  padding-left: $space;
+  flex-grow: 1;
+  height: max-content;
+}
+
+.navigation {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   background-color: $background-color;
-  main {
-    flex-grow: 1;
-    width: 100%;
-  }
+  color: $color-contrast;
 }

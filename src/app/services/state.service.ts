@@ -14,14 +14,17 @@ import { DialogService } from './dialog.service';
   providedIn: 'root'
 })
 export class StateService {
+  categories: {id: string, label: string; icon: string; active: boolean}[] = [];
   productsMap = new Map<string, IProduct>();
   ordersPositionsMap = new Map<string, IOrderPosition>();
+  tableIdsMap = new Map<string, string>();
   menu: Menu = [];
   table: string = '';
   guestName: string = '';
-  client_id: string = '0';
+  client_id: string = '1';
   orderComment: string = '';
   discount = 0;
+  isHomePage = true;
   $init = new Subject<boolean>();
   order: IOrder = {
     positions: [],
@@ -38,6 +41,13 @@ export class StateService {
       return;
     }
     this.menu = menu;
+    this.categories = this.menu.map(category => ({
+      id: category.category_id,
+      label: category.category_name,
+      icon: `${environment.iconPrefix} ${this.getIcon(category.category_name)}`,
+      active: false,
+    }))
+    this.categories[0].active = true;
     menu.map(category => category.products).flat().forEach(product => {
       this.ordersPositionsMap.set(product.product_id, {
         product_id: product.product_id,
@@ -50,12 +60,20 @@ export class StateService {
       );
       this.productsMap.set(product.product_id, product);
     })
-    const cachedGuest = localStorage.getItem('guest');
-    if(cachedGuest){
-      const {name, id, discount} = JSON.parse(cachedGuest);
-      this.guestName = name;
-      this.client_id = id;
-      this.discount = discount;
+    const tables = await this.apiService.getTables();
+    if(!tables){
+      this.dialogService.popUp({ errorMessage: 'Something went wrong with tables :-(' }, "Ok");
+      return
+    }
+    tables.forEach(table => {
+      this.tableIdsMap.set(table.name, table.id)
+    })
+    const cachedGuestId = localStorage.getItem('pasijou_guest_id');
+    if(cachedGuestId){
+      const guest = await this.apiService.getGuestById(cachedGuestId);
+      if(guest){
+        this.setGuest(guest);
+      }
     }
     this.loadingService.hide();
     this.$init.complete();
@@ -93,7 +111,7 @@ export class StateService {
           count: position.count,
           modification: position.modifications.filter(modification => modification.count).map(modification => ({ id: modification.dish_modification_id, count: modification.count })),
         }
-        if(environment.flags.clientCountPrice) {
+        if(environment.flags.clientCountPrice && this.discount) {
           product.price = position.total / 100;
         }
         return product;
@@ -101,6 +119,7 @@ export class StateService {
 
     }
     this.table = order.tableId;
+    order.tableId = this.tableIdsMap.get(order.tableId)!;
     this.loadingService.show();
     const createdOrder = await this.apiService.createOrder(order);
     this.loadingService.hide()
@@ -129,7 +148,30 @@ export class StateService {
     this.guestName = guest.name;
     this.client_id = guest.id;
     this.discount = Number(guest.discount);
-    localStorage.setItem('guest', JSON.stringify({id: this.client_id}));
+    if(this.discount){
+      this.recalculatePrices()
+    }
+    localStorage.setItem('pasijou_guest_id', this.client_id);
+  }
+
+  recalculatePrices(){
+    this.menu.map(category => category.products).flat().forEach(product => {
+      product.discountPrice = Math.floor(product.price * (100 - this.discount) / 100);
+      product.modifications.forEach(modification => {
+        modification.discountPrice = Math.floor(modification.price * (100 - this.discount) / 100);
+      })
+    });
+    [...this.ordersPositionsMap.values()].forEach(position => {
+      position.discountPrice = Math.floor(position.price * (100 - this.discount) / 100);
+      position.modifications.forEach(modification => {
+        modification.discountPrice = Math.floor(modification.price * (100 - this.discount) / 100);
+      })
+    })
+  }
+
+  public getIcon(category: string){
+    // @ts-ignore
+    return "fa-solid " + environment.categoriesIcons[category.toLowerCase()] || '';
   }
 
 }
