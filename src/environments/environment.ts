@@ -17,6 +17,6 @@ export const environment = {
   },
   flags: {
     modificationPrice: true,
-    clientCountPrice: true,
+    clientCountPrice: false,
   }
 };
