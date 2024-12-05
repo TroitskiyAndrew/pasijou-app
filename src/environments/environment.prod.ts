@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   spot_id: '1',
-  apiUrl: 'https://5.101.179.132:3000',
+  apiUrl: 'https://api.pasijou.com',
   iconPrefix: 'fa-solid',
   categoriesIcons: {
     coffee: 'fa-mug-hot',
