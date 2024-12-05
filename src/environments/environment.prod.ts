@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   spot_id: '1',
-  apiUrl: 'http://5.101.179.132:3000',
+  apiUrl: 'https://5.101.179.132:3000',
   iconPrefix: 'fa-solid',
   categoriesIcons: {
     coffee: 'fa-mug-hot',
