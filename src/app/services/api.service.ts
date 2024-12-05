@@ -8,7 +8,6 @@ import { DialogComponent } from '../components/dialog/dialog.component';
 import { StateService } from './state.service';
 import { DialogService } from './dialog.service';
 import { LoadingService } from './loading.service';
-import { correctPhoneNumber, mapTableId } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +79,7 @@ export class ApiService {
   }
 
   public getGuest(phone: string): Promise<IGuest | undefined | null> {
-    const url = `${environment.apiUrl}/guests/phone/${correctPhoneNumber(phone)}`;
+    const url = `${environment.apiUrl}/guests/phone/${phone}`;
     return this.http
       .get<Record<string, any>>(url)
       .toPromise().then(this.mapGuest)
@@ -106,7 +105,7 @@ export class ApiService {
   public createGuest(phone: string, client_name: string): Promise<{ client_id: string }> {
     const url = `${environment.apiUrl}/guests/create`;
     return this.http
-      .post<{ client_id: string }>(url, { client_name, client_groups_id_client: '1', phone: correctPhoneNumber(phone) })
+      .post<{ client_id: string }>(url, { client_name, client_groups_id_client: '1', phone })
       .toPromise()
       .catch(this.getErrorHandler({ value: null, message: 'Fail to create account', btnText: "Ok, I'll try later" }));
   }
