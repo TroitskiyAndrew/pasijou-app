@@ -56,7 +56,6 @@ export class AuthComponent {
   }
 
   private async authenticate(phone: string): Promise<boolean> {
-    return true
     this.loadingService.show()
     const isCodeSended = await  this.apiService.sendCode(phone);
     this.loadingService.hide();
