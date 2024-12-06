@@ -28,7 +28,14 @@ export class CartComponent  implements OnInit, OnDestroy{
 
     const order = await this.dialogService.init({
       fields,
-      buttons: [{
+      buttons: [
+        {
+          label: 'Later',
+          disabled: () => false,
+          action: () => null,
+          class: 'cancel'
+        },
+        {
         label: 'Yes',
         disabled: () => fields.some(field => field.control.invalid),
         action: () => {
@@ -36,12 +43,6 @@ export class CartComponent  implements OnInit, OnDestroy{
           return this.stateService.createOrder({ tableId });
         },
       },
-      {
-        label: 'Later',
-        disabled: () => false,
-        action: () => null,
-        class: 'cancel'
-      }
       ]
     });
     this.router.navigate(['/cart']);

@@ -105,6 +105,7 @@ export class StateService {
       spotId: environment.spot_id,
       waiterId: 6,
       client: {id : this.client_id},
+      autoAccept: true,
       products: this.order.positions.map(position => {
         const product: IPosterOrderProduct = {
           id: position.product_id,
