@@ -21,7 +21,7 @@ export class StateService {
   menu: Menu = [];
   table: string = '';
   guestName: string = '';
-  client_id: string = '1';
+  client_id: string = '18';
   orderComment: string = '';
   discount = 0;
   isHomePage = true;
