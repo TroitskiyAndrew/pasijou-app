@@ -62,6 +62,7 @@ export interface IPosterOrder {
   spotId: string;
   tableId: string;
   waiterId: number;
+  autoAccept: boolean;
   products: IPosterOrderProduct[];
   client: {id: string};
 }
