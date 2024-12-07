@@ -38,7 +38,7 @@ export class ApiService {
             products: category['products'].map(product => {
               //@ts-ignore;
               const { spots, group_modifications } = product;
-              const price = (spots ?? []).find((spot: Record<string, any>) => spot['spot_id'] === environment.spot_id).price;
+              const price = spots.find(spot => spot.spot_id === environment.spot_id)!.price;
               const modifications = (group_modifications ?? [])
                 .filter((group: Record<string, any>) => group['is_deleted'] == '0')
                 .map((group: Record<string, any>) => group['modifications'])
@@ -61,6 +61,7 @@ export class ApiService {
                 modifications,
                 cooking_time: product['cooking_time'] != null ? (Number(product['cooking_time']) / 60) : 99,
                 product_production_description: product['product_production_description'],
+                spots: product['spots'],
               }
             }),
           }))
