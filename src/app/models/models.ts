@@ -32,6 +32,7 @@ export interface IProduct {
   photoUrl: string | null;
   modifications: IModification[];
   cooking_time: number;
+  spots: {spot_id: string, visible: string, price: string}[];
 }
 
 export type Menu = (ICategory & {products: IProduct[]})[]
