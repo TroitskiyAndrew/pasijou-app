@@ -1,0 +1,7 @@
+<div *ngIf="!stateService.isCartPage" class="cart" (click)="goToCart()">
+  <div *ngIf="stateService.order.total" class="cart__amount">{{stateService.order.total | price}}</div>
+  <button class="nav__button cart__button icon-button">
+    <i [ngClass]="['nav__button__icon', iconPrefix, 'fa-cart-shopping']" class="nav__button__icon"></i>
+    <!-- <label class="nav__button__label">Go to Cart</label> -->
+  </button>
+</div>

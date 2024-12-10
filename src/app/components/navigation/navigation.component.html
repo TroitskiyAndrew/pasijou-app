@@ -6,11 +6,5 @@
       <label class="nav__button__label">{{category.label}}</label>
     </button>
   </div>
-  <div class="nav__cart">
-    <div class="nav__cart__amount" [ngClass]="stateService.order.total ? 'active' : ''" >{{stateService.order.total | price}}</div>
-    <button class="nav__button nav__cart__button icon-button" (click)="goToCart()">
-      <i [ngClass]="['nav__button__icon', iconPrefix, 'fa-cart-shopping']" class="nav__button__icon"></i>
-      <label class="nav__button__label">Go to Cart</label>
-    </button>
-  </div>
+
 </div>

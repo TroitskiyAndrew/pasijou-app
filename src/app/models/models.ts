@@ -44,9 +44,17 @@ export interface IOrderPosition {
   discountPrice?: number;
   count: number;
   total: number;
-  modifications: (IModification & {count: number; total: number})[]
+  modifications: (IModification & {count: number; total: number})[];
+  comment?: string;
 }
 
+export interface IOrder {
+  positions: IOrderPosition[],
+  total: number;
+  id?: string;
+  date?: string;
+  comment?: string;
+}
 export interface IOrder {
   positions: IOrderPosition[],
   total: number;
@@ -57,15 +65,26 @@ export interface IPosterOrderProduct {
   count: number;
   modification?: { id: string, count: number }[];
   price?: number,
+  comment?: string;
 }
 
 export interface IPosterOrder {
+  id?: number;
   spotId: string;
   tableId: string;
   waiterId: number;
   autoAccept: boolean;
   products: IPosterOrderProduct[];
   client: {id: string};
+  comment: string
+}
+export interface INewPosterOrderPosition {
+  spot_id: string;
+  spot_tablet_id: string;
+  transaction_id: string;
+  product_id: string;
+  count: number;
+  modification?: string;
 }
 
 export interface IDialogField {

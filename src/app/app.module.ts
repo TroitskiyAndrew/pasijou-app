@@ -20,6 +20,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthComponent } from './components/auth/auth.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PricePipe } from './pipes/price.pipe';
+import { CartButtonComponent } from './components/cart-button/cart-button.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { PricePipe } from './pipes/price.pipe';
     LoadingOverlayComponent,
     AuthComponent,
     NavigationComponent,
+    CartButtonComponent,
     PricePipe,
   ],
   providers: [],
