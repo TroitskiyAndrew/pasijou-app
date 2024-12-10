@@ -11,8 +11,6 @@ import { getElementHeight } from '../../utils/utils';
 })
 export class NavigationComponent {
 
-  iconPrefix = environment.iconPrefix;
-
   constructor(public stateService: StateService, private router: Router) {}
 
   goToCategory(id: string){
@@ -23,11 +21,6 @@ export class NavigationComponent {
         setTimeout(() => this.scrollToCategory(id, true));
       });
     }
-  }
-
-  goToCart(){
-    this.stateService.categories.forEach(category => category.active = false);
-    this.router.navigate(['/cart']);
   }
 
   private scrollToCategory(id: string, fast = false) {

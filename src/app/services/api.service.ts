@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ICategory, IGuest, IOrder, IPosterOrder, IProduct, ITable, Menu } from '../models/models';
+import { ICategory, IGuest, INewPosterOrderPosition, IOrder, IPosterOrder, IProduct, ITable, Menu } from '../models/models';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogComponent } from '../components/dialog/dialog.component';
@@ -70,7 +70,7 @@ export class ApiService {
   }
 
 
-  public createOrder(order: IPosterOrder): Promise<IOrder> {
+  public createOrder(order: IPosterOrder): Promise<IPosterOrder> {
     const url = `${environment.apiUrl}/order`;
     return this.http.post(url, order).toPromise()
       .then(order => {
@@ -78,6 +78,18 @@ export class ApiService {
         return order;
       }).catch(this.getErrorHandler({ value: null, message: 'Fail to create order', btnText: "Ok, I'll try later" }));
   }
+
+  public addPositionToOrder(position: INewPosterOrderPosition) {
+    const url = `${environment.apiUrl}/updateOrder`;
+    return this.http.post(url, position).toPromise().catch(this.getErrorHandler({ value: null, message: 'Fail to update order', btnText: "Ok, I'll try later" }));
+  }
+
+  public getOrder(id: string): Promise<IPosterOrder | undefined> {
+    const url = `${environment.apiUrl}/order/${id}`;
+    return this.http.get(url).toPromise()
+    .catch(this.getErrorHandler({ value: null, message: 'Fail to create order', btnText: "Ok, I'll try later" }));
+  }
+
 
   public getGuest(phone: string): Promise<IGuest | undefined | null> {
     const url = `${environment.apiUrl}/guests/phone/${phone}`;

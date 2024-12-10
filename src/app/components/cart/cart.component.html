@@ -1,5 +1,37 @@
 <div class="cart">
-  <div class="cart__order">
+  <div *ngIf="stateService.currentOrder.id" class="cart__order">
+    <div class="cart__order__title">Current Order:</div>
+    <div *ngFor="let orderPosition of stateService.currentOrder.positions" class="cart__position">
+      <div class="cart__position__sub">
+        <div class="cart__position__title">{{orderPosition.name}}</div>
+        <div class="cart__position__price">{{orderPosition.discountPrice || orderPosition.price | price}}</div>
+        <i class="fa-solid fa-xmark"></i>
+        <div class="cart__position__count"> {{orderPosition.count}}</div>
+        <div> =</div>
+        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice || orderPosition.price) | price}}</div>
+      </div>
+
+      <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
+        <div class="cart__modification__title">{{addon.name}}</div>
+        <div class="cart__position__price"> {{addon.discountPrice || addon.price | price}} </div>
+        <i class="fa-solid fa-xmark"></i>
+        <div class="cart__position__count">{{addon.count}}</div>
+        <div> =</div>
+        <div class="cart__position__price-total">{{addon.count * (addon.discountPrice || addon.price) | price}}</div>
+      </div>
+      <div *ngIf="orderPosition.comment" class="cart__position__comment">
+        <span class="cart__position__comment__label">Comment to {{orderPosition.name}}: </span>
+        <span class="cart__position__comment__text"> {{ orderPosition.comment}}</span>
+      </div>
+    </div>
+    <div *ngIf="stateService.currentOrder.comment" class="cart__comment">
+      <span class="cart__comment__label">Comment to current order: </span>
+      <span class="cart__comment__text"> {{ stateService.currentOrder.comment}}</span>
+    </div>
+    <div *ngIf="stateService.order.positions.length" class="cart__order__total">{{stateService.currentOrder.total | price}}</div>
+  </div>
+  <div *ngIf="stateService.order.positions.length" class="cart__order">
+    <div  class="cart__order__title">New positions:</div>
     <div *ngFor="let orderPosition of stateService.order.positions" class="cart__position">
       <div class="cart__position__sub">
         <div class="cart__position__title">{{orderPosition.name}}</div>
@@ -7,20 +39,30 @@
         <app-product-buttons [productId]="orderPosition.product_id"></app-product-buttons>
         <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice || orderPosition.price) | price}}</div>
       </div>
+
       <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
         <div class="cart__modification__title">{{addon.name}}</div>
         <div class="cart__position__price"> {{addon.discountPrice || addon.price | price}} </div>
         <app-product-buttons [productId]="orderPosition.product_id" [modificationId]="addon.dish_modification_id"></app-product-buttons>
         <div class="cart__position__price-total">{{addon.count * (addon.discountPrice || addon.price) | price}}</div>
       </div>
+      <div class="cart__position__comment">
+        <input type="text" [placeholder]="'comment to ' + orderPosition.name" (change)="setProductComment($event, orderPosition)" [value]="orderPosition.comment ?? ''">
+      </div>
     </div>
-    <div class="cart__total">{{stateService.order.total | price}}</div>
+    <div *ngIf="stateService.currentOrder.id" class="cart__order__total">{{stateService.order.total | price}}</div>
   </div>
+  <div class="cart__total">TOTAL: {{(stateService.currentOrder.total + stateService.order.total) | price}}</div>
   <div *ngIf="stateService.order.positions.length" class="cart__complete">
-    <button class="button"
+    <button *ngIf="!stateService.currentOrder.id" class="button"
       (click)="createOrder()"
     >
-      Complete order
+      Create order
+    </button>
+    <button *ngIf="stateService.currentOrder.id" class="button"
+      (click)="updateOrder()"
+    >
+      Update order
     </button>
   </div>
 </div>

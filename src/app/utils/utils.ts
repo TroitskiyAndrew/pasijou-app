@@ -3,6 +3,9 @@ export function getElementHeight(selector: string): number {
   return element.offsetHeight;
 }
 
-
+export function getCurrentDate(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+}
 
 
