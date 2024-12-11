@@ -157,12 +157,13 @@ export class StateService {
     if (!createdOrder) {
       return null;
     }
-    this.currentOrder.id = String(createdOrder.id);
-    this.currentOrder.positions = this.order.positions;
-    this.currentOrder.total = this.order.total;
-    this.currentOrder.date = getCurrentDate();
-    this.currentOrder.comment = this.orderComment;
-    localStorage.setItem('pasijou_current_order', JSON.stringify(this.currentOrder));
+    // ToDo Включить обратно, когда заказы автоматически будут уходить на кухню
+    // this.currentOrder.id = String(createdOrder.id);
+    // this.currentOrder.positions = this.order.positions;
+    // this.currentOrder.total = this.order.total;
+    // this.currentOrder.date = getCurrentDate();
+    // this.currentOrder.comment = this.orderComment;
+    // localStorage.setItem('pasijou_current_order', JSON.stringify(this.currentOrder));
     this.clearStateOrder();
     return createdOrder;
   }
