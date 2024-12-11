@@ -9,6 +9,10 @@
     row-gap: 5px;
   }
 
+  &__order__current {
+    color: grey;
+  }
+
   &__order__title {
     font-weight: 900;
     font-size: 18px;

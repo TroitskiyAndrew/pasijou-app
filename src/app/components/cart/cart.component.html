@@ -1,5 +1,5 @@
 <div class="cart">
-  <div *ngIf="stateService.currentOrder.id" class="cart__order">
+  <div *ngIf="stateService.currentOrder.id" class="cart__order cart__order__current">
     <div class="cart__order__title">Current Order:</div>
     <div *ngFor="let orderPosition of stateService.currentOrder.positions" class="cart__position">
       <div class="cart__position__sub">
