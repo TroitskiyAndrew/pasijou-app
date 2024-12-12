@@ -110,8 +110,8 @@ export class ApiService {
   private mapGuest(guest: Record<string, any> | undefined) {
     return guest ? {
       id: guest!['client_id'],
-      name: [guest!['firstname'], guest!['lastname']].filter(Boolean).join(' '),
-      discount: Number(guest['discount_per'] || guest!['client_groups_discount'] || '0'),
+      name: [guest['firstname'], guest['lastname']].filter(Boolean).join(' '),
+      discount: Number(guest['discount_per']) || Number(guest['client_groups_discount']) || 0,
     } : undefined
   }
 
