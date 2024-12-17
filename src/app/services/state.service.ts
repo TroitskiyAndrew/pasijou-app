@@ -37,6 +37,7 @@ export class StateService {
     positions: [],
     total: 0,
   };
+  currentOrders: IOrder[] = [];
 
   constructor(private apiService: ApiService, public dialogService: DialogService, private loadingService: LoadingService) { }
 
@@ -107,6 +108,18 @@ export class StateService {
       positions: [],
       total: 0,
     };
+    // ToDo Drop, when autoPushing will be ready
+    this.currentOrders = [];
+    const currentOrdersString = localStorage.getItem('pasijou_current_orders');
+    if (currentOrdersString) {
+      const currentOrdersParsed = JSON.parse(currentOrdersString) as IOrder[];
+      const orders = await Promise.all(currentOrdersParsed.map(orderParsed => this.apiService.getOrder(orderParsed.id!)));
+      currentOrdersParsed.forEach(async (orderParsed) => {
+        if (orderParsed.date === getCurrentDate() && !orders.find(order => order?.id === orderParsed.id)) {
+          this.currentOrders.push(orderParsed);
+        }
+      })
+    }
   }
 
   public getProduct(id: string): IProduct {
@@ -157,6 +170,18 @@ export class StateService {
     if (!createdOrder) {
       return null;
     }
+    // ToDo Дропнуть, когда заказы автоматически будут уходить на кухню
+    const now = new Date()
+    this.currentOrders.push({
+      id: String(createdOrder.id),
+      positions: this.order.positions,
+      total: this.order.total,
+      date: getCurrentDate(),
+      time: `${now.getHours()}:${now.getMinutes()}`,
+      comment: this.orderComment
+    });
+    localStorage.setItem('pasijou_current_orders', JSON.stringify(this.currentOrders));
+
     // ToDo Включить обратно, когда заказы автоматически будут уходить на кухню
     // this.currentOrder.id = String(createdOrder.id);
     // this.currentOrder.positions = this.order.positions;
@@ -177,7 +202,7 @@ export class StateService {
         product_id: position.product_id,
         count: position.count,
       }
-      if(position.modifications.length){
+      if (position.modifications.length) {
         newPosition.modification = JSON.stringify(position.modifications.filter(modification => modification.count).map(modification => ({ m: modification.dish_modification_id, a: modification.count })));
       }
       return this.apiService.addPositionToOrder(newPosition)
@@ -185,18 +210,18 @@ export class StateService {
     await Promise.all(updates);
     this.order.positions.forEach(position => {
       const currentPosition = this.currentOrder.positions.find(pos => pos.product_id === position.product_id);
-      if (currentPosition){
+      if (currentPosition) {
         currentPosition.count += position.count;
         currentPosition.total += position.total;
-        if (currentPosition.discountPrice){
+        if (currentPosition.discountPrice) {
           currentPosition.discountPrice += position.discountPrice!;
         }
         currentPosition.modifications.forEach(currentModification => {
           const addedModification = position.modifications.find(m => m.dish_modification_id === currentModification.dish_modification_id);
-          if (addedModification){
+          if (addedModification) {
             currentModification.count += addedModification.count;
             currentModification.total += addedModification.total;
-            if (currentModification.discountPrice){
+            if (currentModification.discountPrice) {
               currentModification.discountPrice += addedModification.discountPrice!;
             }
           }

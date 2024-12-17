@@ -1,3 +1,4 @@
+import { TemplateRef } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 
 
@@ -53,6 +54,7 @@ export interface IOrder {
   total: number;
   id?: string;
   date?: string;
+  time?: string;
   comment?: string;
 }
 export interface IOrder {
@@ -107,6 +109,7 @@ export interface DialogData {
   errorMessage?: string;
   fields?: IDialogField[];
   buttons: IDialogButton[];
+  template?: TemplateRef<any>;
 }
 
 
