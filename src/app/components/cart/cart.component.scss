@@ -17,6 +17,10 @@
     font-weight: 900;
     font-size: 18px;
   }
+  &__order__subtitle {
+    font-weight: 900;
+    font-size: 16px;
+  }
 
   &__position {
     display: flex;
@@ -72,7 +76,7 @@
   }
   &__total {
     text-align: end;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 900;
     margin-top: 5px;
   }

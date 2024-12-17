@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { StateService } from '../../services/state.service';
 import { Location } from '@angular/common';
 import { FormControl, Validators } from '@angular/forms';
@@ -12,6 +12,9 @@ import { IOrderPosition } from '../../models/models';
   styleUrl: './cart.component.scss',
 })
 export class CartComponent  implements OnInit, OnDestroy{
+  window = window;
+
+  @ViewChild('waitMessageTemplate', { static: true }) waitMessageTemplate!: TemplateRef<any>;
 
   constructor(public stateService: StateService, public dialogService: DialogService, private router: Router, private changeDetection: ChangeDetectorRef) { }
 
@@ -53,7 +56,7 @@ export class CartComponent  implements OnInit, OnDestroy{
     if(order == null){
       return;
     }
-    await this.dialogService.popUp({message: "We've already stared cooking your order"}, 'Nice')
+    await this.dialogService.popUp({message: "We've already stared cooking your order", template: this.waitMessageTemplate}, 'Nice')
   }
 
   async updateOrder(){
@@ -80,6 +83,10 @@ export class CartComponent  implements OnInit, OnDestroy{
 
   setProductComment(event: Event, position: IOrderPosition){
     position.comment = (event.target as HTMLInputElement).value;
+  }
+
+  getCurrentOrdersTotal() {
+    return this.stateService.currentOrders.reduce((acc, order) => acc + order.total, 0)
   }
 
   ngOnDestroy(): void {

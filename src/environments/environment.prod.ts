@@ -14,6 +14,7 @@ export const environment = {
     cart: 'fa-cart',
     ['all day breakfasts']: 'fa-plate-wheat',
     ['special today']: 'fa-star',
+    hookah: 'fa-bong',
   },
   flags: {
     modificationPrice: true,
