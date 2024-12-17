@@ -53,7 +53,7 @@ export class StateService {
         return product.spots.find(spot => spot.spot_id === environment.spot_id && spot.visible === '1')
       })
     })
-    this.menu = menu;
+    this.menu = menu.filter(category => category.products.length);
     this.categories = this.menu.map(category => ({
       id: category.category_id,
       label: category.category_name,
