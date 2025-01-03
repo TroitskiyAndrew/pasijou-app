@@ -5,3 +5,9 @@
     <!-- <label class="nav__button__label">Go to Cart</label> -->
   </button>
 </div>
+<div *ngIf="stateService.isCartPage && stateService.currentOrders.length" class="cart" (click)="callWaiter()">
+  <button class="nav__button cart__button icon-button">
+    <i [ngClass]="['nav__button__icon', iconPrefix, 'fa-bell-concierge']" class="nav__button__icon"></i>
+    <label class="nav__button__label">Call a waiter</label>
+  </button>
+</div>

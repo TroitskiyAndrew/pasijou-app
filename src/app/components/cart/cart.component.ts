@@ -47,7 +47,9 @@ export class CartComponent  implements OnInit, OnDestroy{
         action: () => {
           const tableId = tableField.control.value as string;
           this.stateService.orderComment = commentField.control.value ?? '';
-          return this.stateService.createOrder({ tableId, comment: this.stateService.orderComment });
+          this.stateService.guestName = nameField.control.value ?? '';
+          const comment = `${this.stateService.guestName}; ${this.stateService.orderComment}`;
+          return this.stateService.createOrder({ tableId, comment });
         },
       },
       ]

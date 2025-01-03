@@ -78,7 +78,9 @@ export interface IPosterOrder {
   autoAccept: boolean;
   products: IPosterOrderProduct[];
   client: {id: string};
-  comment: string
+  comment: string;
+  payed_sum?: string;
+  transaction_id?: string;
 }
 export interface INewPosterOrderPosition {
   spot_id: string;

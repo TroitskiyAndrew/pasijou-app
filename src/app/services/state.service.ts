@@ -115,7 +115,8 @@ export class StateService {
       const currentOrdersParsed = JSON.parse(currentOrdersString) as IOrder[];
       const orders = await Promise.all(currentOrdersParsed.map(orderParsed => this.apiService.getOrder(orderParsed.id!)));
       currentOrdersParsed.forEach(async (orderParsed) => {
-        if (orderParsed.date === getCurrentDate() && !orders.find(order => order?.id === orderParsed.id)) {
+        const posterOrder = orders.find(order => order?.transaction_id == orderParsed.id);
+        if (!posterOrder || Number(posterOrder.payed_sum) === 0) {
           this.currentOrders.push(orderParsed);
         }
       })
