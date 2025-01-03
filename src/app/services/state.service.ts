@@ -61,7 +61,10 @@ export class StateService {
       active: false,
     }))
     this.categories[0].active = true;
-    menu.map(category => category.products).flat().forEach(product => {
+    menu.map(category => category.products).reduce((acc, products) => {
+      acc.push(...products);
+      return acc;
+    }, []).forEach(product => {
       this.ordersPositionsMap.set(product.product_id, {
         product_id: product.product_id,
         price: product.price,
@@ -263,7 +266,10 @@ export class StateService {
   }
 
   recalculatePrices() {
-    this.menu.map(category => category.products).flat().forEach(product => {
+    this.menu.map(category => category.products).reduce((acc, products) => {
+      acc.push(...products);
+      return acc;
+    }, []).forEach(product => {
       product.discountPrice = Math.floor(product.price * (100 - this.discount) / 100);
       product.modifications.forEach(modification => {
         modification.discountPrice = Math.floor(modification.price * (100 - this.discount) / 100);
