@@ -149,4 +149,12 @@ export class ApiService {
       .catch(this.getErrorHandler({ value: null, message: 'Fail to find guest account', btnText: "Ok, I'll try later" }));
   }
 
+  public callWaiter(table: string): Promise<boolean> {
+    const url = `${environment.apiUrl}/waiter/${table}`;
+    return this.http
+      .get<boolean>(url)
+      .toPromise()
+      .catch(this.getErrorHandler({ value: '', message: 'Fail to call a waiter', btnText: "Ok, I'll try later" }));
+  }
+
 }
