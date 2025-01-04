@@ -80,4 +80,13 @@
     font-weight: 900;
     margin-top: 5px;
   }
+  &__complete {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    button {
+      width: fit-content;
+    }
+  }
 }

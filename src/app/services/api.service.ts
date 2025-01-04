@@ -157,4 +157,12 @@ export class ApiService {
       .catch(this.getErrorHandler({ value: '', message: 'Fail to call a waiter', btnText: "Ok, I'll try later" }));
   }
 
+  public getRate(): Promise<number> {
+    const url = `${environment.apiUrl}/rate`;
+    return this.http
+      .get<number>(url)
+      .toPromise()
+      .catch(this.getErrorHandler({ value: '', message: 'Fail to get current Rate', btnText: "Ok, I'll try later" }));
+  }
+
 }

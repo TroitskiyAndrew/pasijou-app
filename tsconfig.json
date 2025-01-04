@@ -15,11 +15,11 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
+    "target": "ES2016",
     "module": "esnext",
     "useDefineForClassFields": false,
     "lib": [
-      "ES2022",
+      "ES2016",
       "dom"
     ]
   },

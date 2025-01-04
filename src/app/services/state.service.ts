@@ -38,6 +38,8 @@ export class StateService {
     total: 0,
   };
   currentOrders: IOrder[] = [];
+  currentRate = 0;
+  usdTotal = 0;
 
   constructor(private apiService: ApiService, public dialogService: DialogService, private loadingService: LoadingService) { }
 
@@ -45,6 +47,7 @@ export class StateService {
     this.loadingService.show();
 
     const menu = await this.apiService.getMenu();
+    this.currentRate = await this.apiService.getRate();
     if (!menu) {
       return;
     }
@@ -61,7 +64,10 @@ export class StateService {
       active: false,
     }))
     this.categories[0].active = true;
-    menu.map(category => category.products).flat().forEach(product => {
+    menu.map(category => category.products).reduce((acc, products) => {
+      acc.push(...products);
+      return acc;
+    }, []).forEach(product => {
       this.ordersPositionsMap.set(product.product_id, {
         product_id: product.product_id,
         price: product.price,
@@ -93,6 +99,12 @@ export class StateService {
     this.$init.complete();
   }
 
+  recountUsdTotal() {
+    const total = this.currentOrders.reduce((acc, order) => acc += order.total, 0) / 100;
+    const rate = Math.floor(this.currentRate * 100) / 100;
+    this.usdTotal = Math.round((total / rate) * 100) / 100;
+  }
+
   public async checkOrder(): Promise<void> {
     const currentOrderString = localStorage.getItem('pasijou_current_order');
     if (currentOrderString) {
@@ -121,6 +133,7 @@ export class StateService {
         }
       })
     }
+    this.recountUsdTotal()
   }
 
   public getProduct(id: string): IProduct {
@@ -141,6 +154,7 @@ export class StateService {
     }
 
     this.order.total = this.order.positions.reduce((sum, position) => sum += position.total, 0);
+    this.recountUsdTotal()
   }
 
   async createOrder(orderInfo: Pick<IPosterOrder, 'tableId' | 'comment'>) {
@@ -191,6 +205,7 @@ export class StateService {
     // this.currentOrder.comment = this.orderComment;
     // localStorage.setItem('pasijou_current_order', JSON.stringify(this.currentOrder));
     this.clearStateOrder();
+    await this.checkOrder()
     return createdOrder;
   }
 
@@ -263,7 +278,10 @@ export class StateService {
   }
 
   recalculatePrices() {
-    this.menu.map(category => category.products).flat().forEach(product => {
+    this.menu.map(category => category.products).reduce((acc, products) => {
+      acc.push(...products);
+      return acc;
+    }, []).forEach(product => {
       product.discountPrice = Math.floor(product.price * (100 - this.discount) / 100);
       product.modifications.forEach(modification => {
         modification.discountPrice = Math.floor(modification.price * (100 - this.discount) / 100);
