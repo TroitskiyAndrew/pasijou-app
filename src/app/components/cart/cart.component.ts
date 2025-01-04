@@ -13,6 +13,7 @@ import { IOrderPosition } from '../../models/models';
 })
 export class CartComponent  implements OnInit, OnDestroy{
   window = window;
+  showPayPal = false
 
   @ViewChild('waitMessageTemplate', { static: true }) waitMessageTemplate!: TemplateRef<any>;
 

@@ -1,37 +1,37 @@
 <div class="cart">
-
-    <div class="cart__order__title">Current Orders:</div>
-    <div *ngFor="let order of stateService.currentOrders" class="cart__order cart__order__current">
-      <div class="cart__order__subtitle">Order at {{order.time}}</div>
-      <div *ngFor="let orderPosition of order.positions" class="cart__position">
-        <div class="cart__position__sub">
-          <div class="cart__position__title">{{orderPosition.name}}</div>
-          <div class="cart__position__price">{{orderPosition.discountPrice || orderPosition.price | price}}</div>
-          <i class="fa-solid fa-xmark"></i>
-          <div class="cart__position__count"> {{orderPosition.count}}</div>
-          <div> =</div>
-          <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice || orderPosition.price) | price}}</div>
-        </div>
-
-        <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
-          <div class="cart__modification__title">{{addon.name}}</div>
-          <div class="cart__position__price"> {{addon.discountPrice || addon.price | price}} </div>
-          <i class="fa-solid fa-xmark"></i>
-          <div class="cart__position__count">{{addon.count}}</div>
-          <div> =</div>
-          <div class="cart__position__price-total">{{addon.count * (addon.discountPrice || addon.price) | price}}</div>
-        </div>
-        <div *ngIf="orderPosition.comment" class="cart__position__comment">
-          <span class="cart__position__comment__label">Comment to {{orderPosition.name}}: </span>
-          <span class="cart__position__comment__text"> {{ orderPosition.comment}}</span>
-        </div>
+  <div class="cart__order__title">Current Orders:</div>
+  <div *ngFor="let order of stateService.currentOrders" class="cart__order cart__order__current">
+    <div class="cart__order__subtitle">Order at {{order.time}}</div>
+    <div *ngFor="let orderPosition of order.positions" class="cart__position">
+      <div class="cart__position__sub">
+        <div class="cart__position__title">{{orderPosition.name}}</div>
+        <div class="cart__position__price">{{orderPosition.discountPrice || orderPosition.price | price}}</div>
+        <i class="fa-solid fa-xmark"></i>
+        <div class="cart__position__count"> {{orderPosition.count}}</div>
+        <div> =</div>
+        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice ||
+          orderPosition.price) | price}}</div>
       </div>
-      <div *ngIf="order.comment" class="cart__comment">
-        <span class="cart__comment__label">Comment to current order: </span>
-        <span class="cart__comment__text"> {{ stateService.currentOrder.comment}}</span>
+
+      <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
+        <div class="cart__modification__title">{{addon.name}}</div>
+        <div class="cart__position__price"> {{addon.discountPrice || addon.price | price}} </div>
+        <i class="fa-solid fa-xmark"></i>
+        <div class="cart__position__count">{{addon.count}}</div>
+        <div> =</div>
+        <div class="cart__position__price-total">{{addon.count * (addon.discountPrice || addon.price) | price}}</div>
       </div>
-      <div class="cart__order__total">{{order.total | price}}</div>
+      <div *ngIf="orderPosition.comment" class="cart__position__comment">
+        <span class="cart__position__comment__label">Comment to {{orderPosition.name}}: </span>
+        <span class="cart__position__comment__text"> {{ orderPosition.comment}}</span>
+      </div>
     </div>
+    <div *ngIf="order.comment" class="cart__comment">
+      <span class="cart__comment__label">Comment to current order: </span>
+      <span class="cart__comment__text"> {{ stateService.currentOrder.comment}}</span>
+    </div>
+    <div class="cart__order__total">{{order.total | price}}</div>
+  </div>
 
   <div *ngIf="stateService.currentOrder.id" class="cart__order cart__order__current">
     <div class="cart__order__title">Current Order:</div>
@@ -42,7 +42,8 @@
         <i class="fa-solid fa-xmark"></i>
         <div class="cart__position__count"> {{orderPosition.count}}</div>
         <div> =</div>
-        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice || orderPosition.price) | price}}</div>
+        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice ||
+          orderPosition.price) | price}}</div>
       </div>
 
       <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
@@ -62,49 +63,67 @@
       <span class="cart__comment__label">Comment to current order: </span>
       <span class="cart__comment__text"> {{ stateService.currentOrder.comment}}</span>
     </div>
-    <div *ngIf="stateService.order.positions.length" class="cart__order__total">{{stateService.currentOrder.total | price}}</div>
+    <div *ngIf="stateService.order.positions.length" class="cart__order__total">{{stateService.currentOrder.total |
+      price}}</div>
   </div>
+
   <div *ngIf="stateService.order.positions.length" class="cart__order">
-    <div  class="cart__order__title">New positions:</div>
+    <div class="cart__order__title">New positions:</div>
     <div *ngFor="let orderPosition of stateService.order.positions" class="cart__position">
       <div class="cart__position__sub">
         <div class="cart__position__title">{{orderPosition.name}}</div>
         <div class="cart__position__price"> {{orderPosition.discountPrice || orderPosition.price | price}} </div>
         <app-product-buttons [productId]="orderPosition.product_id"></app-product-buttons>
-        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice || orderPosition.price) | price}}</div>
+        <div class="cart__position__price-total">{{orderPosition.count * (orderPosition.discountPrice ||
+          orderPosition.price) | price}}</div>
       </div>
 
       <div *ngFor="let addon of orderPosition.modifications" class="cart__position__sub">
         <div class="cart__modification__title">{{addon.name}}</div>
         <div class="cart__position__price"> {{addon.discountPrice || addon.price | price}} </div>
-        <app-product-buttons [productId]="orderPosition.product_id" [modificationId]="addon.dish_modification_id"></app-product-buttons>
+        <app-product-buttons [productId]="orderPosition.product_id"
+          [modificationId]="addon.dish_modification_id"></app-product-buttons>
         <div class="cart__position__price-total">{{addon.count * (addon.discountPrice || addon.price) | price}}</div>
       </div>
       <div class="cart__position__comment">
-        <input type="text" [placeholder]="'comment to ' + orderPosition.name" (change)="setProductComment($event, orderPosition)" [value]="orderPosition.comment ?? ''">
+        <input type="text" [placeholder]="'comment to ' + orderPosition.name"
+          (change)="setProductComment($event, orderPosition)" [value]="orderPosition.comment ?? ''">
       </div>
     </div>
-    <div *ngIf="stateService.currentOrder.id || stateService.currentOrders.length" class="cart__order__total">{{stateService.order.total | price}}</div>
+    <div *ngIf="stateService.currentOrder.id || stateService.currentOrders.length" class="cart__order__total">
+      {{stateService.order.total | price}}</div>
   </div>
-  <div class="cart__total">TOTAL: {{(stateService.currentOrder.total + stateService.order.total + getCurrentOrdersTotal()) | price}}</div>
-  <div *ngIf="stateService.order.positions.length" class="cart__complete">
-    <button *ngIf="!stateService.currentOrder.id" class="button"
-      (click)="createOrder()"
-    >
-      Create order
-    </button>
-    <button *ngIf="stateService.currentOrder.id" class="button"
-      (click)="updateOrder()"
-    >
-      Update order
-    </button>
+  <div class="cart__total">TOTAL: {{(stateService.currentOrder.total + stateService.order.total +
+    getCurrentOrdersTotal()) | price}}</div>
+  <div class="cart__complete">
+    <ng-container *ngIf="stateService.order.positions.length">
+      <button *ngIf="!stateService.currentOrder.id" class="button" (click)="createOrder()">
+        Create order
+      </button>
+      <button *ngIf="stateService.currentOrder.id" class="button" (click)="updateOrder()">
+        Update order
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="stateService.currentOrders.length && !stateService.order.positions.length && stateService.client_id === '14'">
+      <button class="button" (click)="showPayPal = true">
+        Pay online {{stateService.usdTotal}}$
+      </button>
+      <div *ngIf="showPayPal">
+        <app-paypal-button></app-paypal-button>
+      </div>
+    </ng-container>
+
   </div>
+
 </div>
 
 <ng-template #waitMessageTemplate>
   <div style="display: flex; align-items: center; column-gap: 10px;" class="wait-message">
     <span>Meanwhile subscribe us</span>
-    <i style="color: #0088cc; cursor: pointer; font-size: 24px;" class="smm-link fa-brands fa-telegram" (click)="window.open('https://t.me/pasijou_guests', '_blank')"></i>
-    <i style="color: #f92d51; cursor: pointer; font-size: 24px;" class="smm-link fa-brands fa-instagram" (click)="window.open('https://instagram.com/pasijou', '_blank')"></i>
+    <i style="color: #0088cc; cursor: pointer; font-size: 24px;" class="smm-link fa-brands fa-telegram"
+      (click)="window.open('https://t.me/pasijou_guests', '_blank')"></i>
+    <i style="color: #f92d51; cursor: pointer; font-size: 24px;" class="smm-link fa-brands fa-instagram"
+      (click)="window.open('https://instagram.com/pasijou', '_blank')"></i>
   </div>
 </ng-template>
