@@ -128,10 +128,12 @@ export class StateService {
       const orders = await Promise.all(currentOrdersParsed.map(orderParsed => this.apiService.getOrder(orderParsed.id!)));
       currentOrdersParsed.forEach(async (orderParsed) => {
         const posterOrder = orders.find(order => order?.transaction_id == orderParsed.id);
-        if (!posterOrder || Number(posterOrder.payed_sum) === 0) {
+
+        if ((orderParsed.date === getCurrentDate() && !posterOrder) || (posterOrder && Number(posterOrder.payed_sum) === 0)) {
           this.currentOrders.push(orderParsed);
         }
-      })
+      });
+      localStorage.setItem('pasijou_current_orders', JSON.stringify(this.currentOrders))
     }
     this.recountUsdTotal()
   }
