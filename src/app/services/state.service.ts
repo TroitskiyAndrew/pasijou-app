@@ -15,7 +15,7 @@ import { getCurrentDate } from '../utils/utils';
   providedIn: 'root'
 })
 export class StateService {
-  categories: { id: string, label: string; icon: string; active: boolean }[] = [];
+  categories: { id: string, label: string; icon: string; iconNew: string | null; active: boolean }[] = [];
   productsMap = new Map<string, IProduct>();
   ordersPositionsMap = new Map<string, IOrderPosition>();
   tableIdsMap = new Map<string, string>();
@@ -61,6 +61,7 @@ export class StateService {
       id: category.category_id,
       label: category.category_name,
       icon: `${environment.iconPrefix} ${this.getIcon(category.category_name)}`,
+      iconNew: category.category_photo_origin,
       active: false,
     }))
     this.categories[0].active = true;

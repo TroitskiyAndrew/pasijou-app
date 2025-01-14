@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 export interface ICategory {
   category_id: string;
   category_name: string;
-  category_photo: string | null;
+  category_photo_origin: string | null;
   products: IProduct[];
 }
 

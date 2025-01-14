@@ -2,7 +2,13 @@
   <div class="nav__categories">
     <button *ngFor="let category of stateService.categories" [ngClass]="{'nav__button': true, 'icon-button': true, active: category.active}"
       (click)="goToCategory(category.id)">
-      <i [ngClass]="category.icon" class="nav__button__icon"></i>
+      <ng-container *ngIf="category.iconNew">
+        <img class="nav__button__icon_new" [src]="category.iconNew" alt="" srcset="">
+      </ng-container>
+      <ng-container *ngIf="!category.iconNew">
+        <i [ngClass]="category.icon" class="nav__button__icon"></i>
+      </ng-container>
+
       <label class="nav__button__label">{{category.label}}</label>
     </button>
   </div>
