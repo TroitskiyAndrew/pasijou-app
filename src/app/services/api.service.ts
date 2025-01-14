@@ -33,8 +33,8 @@ export class ApiService {
         return (data ?? [])
           .map((category) => ({
             category_id: category['category_id'],
-            category_name: category['category_name'].trim(),
-            category_photo: 'https://joinposter.com' + category['category_photo'],
+            category_name: category['category_name'].split(';')[0].trim(),
+            category_photo_origin: (category['category_name'].split(';')[1] ?? '').trim() || '',
             products: category['products'].map(product => {
               //@ts-ignore;
               const { spots, group_modifications } = product;
