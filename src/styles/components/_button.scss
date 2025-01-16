@@ -13,9 +13,10 @@
   }
   label {
     font-size: 14px;
+    width: 10ch;
   }
   &.active {
-    color: white;
+    filter: invert(1);
   }
 }
 
