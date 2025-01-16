@@ -21,7 +21,6 @@ import { AuthComponent } from './components/auth/auth.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PricePipe } from './pipes/price.pipe';
 import { CartButtonComponent } from './components/cart-button/cart-button.component';
-import { PaypalButtonComponent } from './components/paypal-button/paypal-button.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,8 +37,7 @@ import { PaypalButtonComponent } from './components/paypal-button/paypal-button.
     AuthComponent,
     NavigationComponent,
     CartButtonComponent,
-    PricePipe,
-    PaypalButtonComponent
+    PricePipe
   ],
   providers: [],
   imports: [
