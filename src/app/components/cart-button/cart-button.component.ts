@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../../services/api.service';
 import { DialogService } from '../../services/dialog.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cart-button',
@@ -22,8 +23,10 @@ export class CartButtonComponent {
   }
 
   async callWaiter(){
+    const tableField = { id: 'table', label: 'Table number', control: new FormControl(this.stateService.table, [Validators.required, Validators.pattern(/^(?!0$).*$/)]) }
     await this.dialogService.init({
       message: 'Do you want to call a waiter?',
+      fields: [tableField],
       buttons: [
         {
           label: 'Later',
@@ -33,7 +36,7 @@ export class CartButtonComponent {
         },
         {
         label: 'Yes',
-        disabled: () => false,
+        disabled: () => tableField.control.invalid,
         action: () => {
           return this.apiService.callWaiter(this.stateService.table);
         },
