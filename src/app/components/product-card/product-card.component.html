@@ -12,7 +12,7 @@
       <div class="price-holder"> {{product.discountPrice || product.price | price}} </div>
       <app-product-buttons [productId]="product.product_id"></app-product-buttons>
     </div>
-    <div *ngIf="product.modifications.length" class="product__addons">
+    <div *ngIf="stateService.getOrderPosition(product.product_id).count" class="product__addons">
       <div *ngFor="let modification of product.modifications" class="product__addons__item">
         <div class="addon__name">{{modification.name}}</div>
         <div class="price-holder"> {{modification.discountPrice || modification.price | price}} </div>

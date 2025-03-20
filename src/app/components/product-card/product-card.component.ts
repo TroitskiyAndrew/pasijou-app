@@ -13,7 +13,7 @@ export class ProductCardComponent implements AfterViewInit{
   countChanged = false;
   orderPosition!: IOrderPosition
 
-  constructor(private stateService: StateService, private router: Router){}
+  constructor(public stateService: StateService, private router: Router){}
 
   ngAfterViewInit(): void {
     this.orderPosition = this.stateService.getOrderPosition(this.product.product_id)
