@@ -42,9 +42,21 @@
     display: flex;
     column-gap: 5px;
   }
+
+  &__addons{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+  }
   &__addons__item {
     display: flex;
     column-gap: 5px;
     align-items: center;
+    justify-content: space-between;
+    padding-right: 3px;
+    .price-holder{
+      margin-left: auto;
+      flex-shrink: 0;
+    }
   }
 }
