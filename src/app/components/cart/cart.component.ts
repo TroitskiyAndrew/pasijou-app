@@ -27,6 +27,15 @@ export class CartComponent  implements OnInit, OnDestroy{
   }
 
   async createOrder() {
+    const res = await this.stateService.checkCurrentOrder();
+    if(!res){
+      await this.dialogService.popUp({errorMessage: "Something went wrong, try later"});
+      return;
+    }
+    if(Array.isArray(res)){
+      await this.dialogService.popUp({errorMessage: `Sorry, but ${res.map(position => position.name).join(', ')} ${res.length > 1 ? "aren't" : "isn't"} available at the moment`});
+      return;
+    }
     const tableField = { id: 'table', label: 'Table', control: new FormControl(this.stateService.table || '', Validators.required) };
     const nameField = { id: 'name', label: 'Name', control: new FormControl(this.stateService.guestName || '', Validators.required) };
     const commentField = { id: 'comment', label: 'Comment', control: new FormControl(this.stateService.orderComment || '') };
