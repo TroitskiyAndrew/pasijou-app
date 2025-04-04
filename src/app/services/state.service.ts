@@ -212,6 +212,28 @@ export class StateService {
     return createdOrder;
   }
 
+  async checkCurrentOrder(){
+    const selectedPositions = this.order.positions;
+    const menu = await this.apiService.getMenu();
+    if (!menu) {
+      return false;
+    }
+    menu.forEach(cat => {
+      cat.products = cat.products.filter(product => {
+        return product.spots.find(spot => spot.spot_id === environment.spot_id && spot.visible === '1')
+      })
+    });
+    const availableProductsSet = new Set(menu.reduce((acc, cat) => {
+      acc.push(...cat.products);
+      return acc;
+    }, [] as IProduct[]).map(product => product.product_id));
+    const deletedProducts = selectedPositions.filter(position => !availableProductsSet.has(position.product_id));
+    if(deletedProducts.length){
+      return deletedProducts;
+    }
+    return true;
+  }
+
   async updateOrder() {
     const updates = this.order.positions.map(position => {
       const newPosition: INewPosterOrderPosition = {
