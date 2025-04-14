@@ -54,6 +54,7 @@ export class ApiService {
                 menu_category_id: product['menu_category_id'],
                 product_name: product['product_name'].trim(),
                 price: price ? Number(price) : 99999,
+                nodiscount: Number(product['nodiscount']) > 0,
                 //@ts-ignore;
                 ingredients: (product['ingredients'] ?? []).map((ingredient: Record<string, any>) => ingredient['ingredient_name']),
                 //@ts-ignore;

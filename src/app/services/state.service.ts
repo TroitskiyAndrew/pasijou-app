@@ -72,6 +72,7 @@ export class StateService {
       this.ordersPositionsMap.set(product.product_id, {
         product_id: product.product_id,
         price: product.price,
+        nodiscount: product['nodiscount'],
         name: product.product_name,
         count: 0,
         total: 0,
@@ -149,7 +150,7 @@ export class StateService {
   public recountOrder(orderPosition: IOrderPosition) {
     orderPosition.modifications.forEach(modification => modification.total = modification.count * modification.price);
     orderPosition.total = (orderPosition.count * orderPosition.price + orderPosition.modifications.reduce((sum, modification) => sum += modification.total, 0));
-    orderPosition.total = orderPosition.total * (100 - this.discount) / 100;
+    orderPosition.total = orderPosition.total * (100 - (orderPosition.nodiscount ? 0 : this.discount)) / 100;
     if (orderPosition.count === 0) {
       this.order.positions = this.order.positions.filter(position => position.product_id !== orderPosition.product_id);
     } else if (!this.order.positions.find(position => position.product_id === orderPosition.product_id)) {
@@ -307,13 +308,13 @@ export class StateService {
       acc.push(...products);
       return acc;
     }, []).forEach(product => {
-      product.discountPrice = Math.floor(product.price * (100 - this.discount) / 100);
+      product.discountPrice = Math.floor(product.price * (100 - (product.nodiscount ? 0 : this.discount)) / 100);
       product.modifications.forEach(modification => {
         modification.discountPrice = Math.floor(modification.price * (100 - this.discount) / 100);
       })
     });
     [...this.ordersPositionsMap.values()].forEach(position => {
-      position.discountPrice = Math.floor(position.price * (100 - this.discount) / 100);
+      position.discountPrice = Math.floor(position.price * (100 - (position.nodiscount ? 0 : this.discount)) / 100);
       position.modifications.forEach(modification => {
         modification.discountPrice = Math.floor(modification.price * (100 - this.discount) / 100);
       })

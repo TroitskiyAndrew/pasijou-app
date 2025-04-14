@@ -27,6 +27,7 @@ export interface IProduct {
   menu_category_id: string;
   product_name: string;
   price: number;
+  nodiscount: boolean;
   discountPrice?: number;
   product_production_description: '';
   ingredients: string[];
@@ -42,6 +43,7 @@ export interface IOrderPosition {
   product_id: string;
   name: string;
   price: number;
+  nodiscount: boolean;
   discountPrice?: number;
   count: number;
   total: number;
